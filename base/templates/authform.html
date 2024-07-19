@@ -1,0 +1,20 @@
+<div>
+    {% for message in messages %}
+    <p>Erro {{ message }} {{ message.category }}</p>
+    {% endfor %}
+    {{ message }}
+    {% if page == "login" %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Enter Username">
+        <input type="password" name="password" placeholder="password">
+        <input type="submit" value="Login">
+    </form>
+    {% else %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit">
+    </form>
+    {% endif %}
+</div>

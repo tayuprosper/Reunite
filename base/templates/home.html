@@ -1,0 +1,17 @@
+<div class="navbar">
+    <h1>
+        Welcome to Reunite
+    </h1>
+    <ul>
+        <li><a href="">POST</a></li>
+        <li><a href="{% url 'profile' %}">PROFILE</a></li>
+    </ul>
+</div>
+<div>
+    {% for item in items %}
+    <h3>{{ item.founder.first_name }} {{ item.founder.last_name }}</h3>
+    <p>{{ item.item_desc }}</p>
+    <img src="{{ item.item_img_url }}"><br>
+    <button>Identify</button> <button>Share</button>
+    {% endfor %}
+</div>
