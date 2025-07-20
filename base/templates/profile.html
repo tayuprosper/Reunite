@@ -1,9 +1,0 @@
-<h1>Hi {{ user.username }} {{ user.id }}</h1>
-<p><a href="/logout">Logout</a></p>
-<div>
-    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
-    {% for post in your_posts %}
-    <p>{{ post.item_desc }}</p>
-    <img src="{{ post.item_img_url }}"><br>
-    {% endfor %}
-</div>
