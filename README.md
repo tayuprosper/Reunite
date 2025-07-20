@@ -10,7 +10,7 @@
 - 📤 **Report Lost Item** – Submit details about items you’ve lost.
 - 📥 **Report Found Item** – Let others know about items you’ve found.
 - ✅ **Claim an Item** – Request to reclaim a found item.
-- 🔔 **Notifications** – Get updates when someone matches or claims an item.
+- 🔔 **Notifications** – Get updates when someone matches or claims an item. ( comming soon)
 - 📋 **Dashboard** – View and manage your lost and found reports.
 - 👤 **User Account Management** – Edit profile, change password, delete account.
 
@@ -28,7 +28,7 @@
 
 - **Frontend:** React, Tailwind CSS
 - **Icons:** [Lucide React](https://www.npmjs.com/package/lucide-react)
-- **Backend:** Coming soon (Django or Node.js)
+- **Backend:** NextJs
 
 ---
 
