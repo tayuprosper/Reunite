@@ -56,7 +56,7 @@ const onSubmit =async (data: formValues)=>{
              {errors.root && <p className='text-red-700 text-sm'>Error {errors.root.message}</p>}
             <button type='submit'   className={` w-full ${isLoading ? "bg-gray-800 cursor-not-allowed" : "bg-black" }  hover:bg-gray-800 text-white font-semibold p-2 rounded flex items-center justify-center`}>{isLoading ? <Ellipsis /> : "Submit"}</button>
                <p className="text-sm text-center mt-2">
-  Don't have an account?{" "}
+  {"Don't have an account?"}{" "}
   <a href="/signup" className="text-blue-700 underline hover:text-blue-900 transition">
             Create one
   </a>
