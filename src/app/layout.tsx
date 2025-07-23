@@ -6,7 +6,8 @@ import Footer from "./(components)/footer";
 
 const poppins = Poppins ({
   weight: ["100","200","300","400","500","600","700","800","900"],
-  fallback: ["latin"]
+  fallback: ["latin"],
+  subsets: ["latin"]
 })
 export const metadata: Metadata = {
   title: "Create Next App",
