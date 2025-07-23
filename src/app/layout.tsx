@@ -4,12 +4,13 @@ import "./globals.css";
 import Navabar from "./navbar";
 import Footer from "./(components)/footer";
 
-
+// 👇 Configured properly with subset
 const poppins = Poppins({
-  subsets: ['latin'], 
-  preload: false,
-  weight: ["100","200","300","400","500","600","700","800","900"],
-  variable: '--font-poppins', // optional if using CSS variable
+  subsets: ['latin'],
+  weight: [
+    "100", "200", "300", "400", "500", "600", "700", "800", "900"
+  ],
+  variable: '--font-poppins',
 });
 
 export const metadata: Metadata = {
@@ -24,11 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} antialiased`}
-      >
-        <Navabar/>
+      <body className={`${poppins.className} antialiased`}>
+        <Navabar />
         {children}
-        <Footer/>
+        <Footer />
       </body>
     </html>
   );
