@@ -15,7 +15,7 @@ const { register, handleSubmit, setError, formState: { errors} } = useForm<formV
 const [isLoading, setIsLoading] = useState(false);
 const onSubmit =async (data: formValues)=>{
     setIsLoading(true);
-    const res = await fetch('/api/auth/login', {
+    const res = await fetch("/api/auth/login", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

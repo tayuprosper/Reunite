@@ -3,8 +3,6 @@ import { Item } from '@/app';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
-type Props = {}
-
 function Details() {
     const params = useParams();
    const [loading, setLoading] =  useState<boolean>(false)
