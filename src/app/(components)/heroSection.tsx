@@ -1,9 +1,8 @@
 import { Search } from 'lucide-react'
 import React from 'react'
 
-type Props = {}
 
-const HeroSection = (props: Props) => {
+const HeroSection = () => {
   return (
     <div className="bg-gray-100 w-[100%] pt-[10vh] shadow-lg  min-h-[70vh] flex flex-col items-center justify-center text-center">
       <h1 className="font-extrabold text-xl md:text-3xl lg:text-6xl max-w-4xl mb-4">

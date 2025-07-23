@@ -9,7 +9,7 @@ type formValues = {
     password: string;
 }
 
-const page = () => {
+const Page = () => {
     const router = useRouter();
 const { register, handleSubmit, setError, formState: { errors} } = useForm<formValues>();
 const [isLoading, setIsLoading] = useState(false);
@@ -66,4 +66,4 @@ const onSubmit =async (data: formValues)=>{
   )
 }
 
-export default page
+export default Page
