@@ -1,5 +1,6 @@
 "use client"
 import { Ellipsis, LoaderCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -9,6 +10,7 @@ type formValues = {
 }
 
 const page = () => {
+    const router = useRouter();
 const { register, handleSubmit, setError, formState: { errors} } = useForm<formValues>();
 const [isLoading, setIsLoading] = useState(false);
 const onSubmit =async (data: formValues)=>{
@@ -23,7 +25,7 @@ const onSubmit =async (data: formValues)=>{
     
     const result = await res.json();
     if (res.status === 200){
-        alert("success" + result);
+        router.push("/allitems")
     }else{
         setError("root", {
             type: "manual",
@@ -48,7 +50,7 @@ const onSubmit =async (data: formValues)=>{
             </div>
             <div className="password flex flex-col">
                 <label htmlFor="password">Password</label>
-                <input  {...register("password", {required: true})} className='border bg-white p-2 text-sm focus:outline-none rounded' placeholder='Password' />
+                <input  {...register("password", {required: true})} type='password' className='border bg-white p-2 text-sm focus:outline-none rounded' placeholder='Password' />
                 {errors.password && <p className='text-red-700'>Password is required</p> }
             </div>
              {errors.root && <p className='text-red-700 text-sm'>Error {errors.root.message}</p>}

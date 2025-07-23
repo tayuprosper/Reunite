@@ -5,9 +5,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 type FormValues = {
-  fullName: string
   email: string
-  phone: string
   password: string
 }
 
@@ -39,6 +37,7 @@ const SignUpPage = () => {
         })
         setIsLoading(false);
       }else{
+        console.log(result);
         setIsLoading(false);
       }
       
@@ -51,25 +50,6 @@ const SignUpPage = () => {
         className="bg-gray-200 w-full max-w-sm rounded-xl flex flex-col gap-5 p-6 mt-10 shadow-md"
       >
         <h1 className="font-bold text-2xl text-center">Sign Up to ReUnite</h1>
-
-        {/* Full Name */}
-        <div className="flex flex-col">
-          <label htmlFor="fullName" className="mb-1 font-medium text-sm">Full Name</label>
-          <input
-            {...register("fullName", {
-              required: "Full name is required",
-              minLength: {
-                value: 3,
-                message: "Full name must be at least 3 characters"
-              }
-            })}
-            className="p-1 rounded border focus:outline-none bg-white"
-            placeholder="John Doe"
-          />
-          {errors.fullName && (
-            <p className="text-sm text-red-600 mt-1">{errors.fullName.message}</p>
-          )}
-        </div>
 
         {/* Email */}
         <div className="flex flex-col">
@@ -90,27 +70,6 @@ const SignUpPage = () => {
             <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
           )}
         </div>
-
-        {/* Phone */}
-        <div className="flex flex-col">
-          <label htmlFor="phone" className="mb-1 font-medium text-sm">Phone Number</label>
-          <input
-            type="tel"
-            {...register("phone", {
-              required: "Phone number is required",
-              pattern: {
-                value: /^(237)?6[5-9][0-9]{7}$/,
-                message: "Enter a valid Cameroon phone number"
-              }
-            })}
-            className="p-1 rounded border focus:outline-none bg-white"
-            placeholder="6XXXXXXXX or 2376XXXXXXXX"
-          />
-          {errors.phone && (
-            <p className="text-sm text-red-600 mt-1">{errors.phone.message}</p>
-          )}
-        </div>
-
         {/* Password */}
         <div className="flex flex-col">
           <label htmlFor="password" className="mb-1 font-medium text-sm">Password</label>
@@ -128,7 +87,7 @@ const SignUpPage = () => {
               }
             })}
             className="p-1 rounded border focus:outline-none bg-white"
-            placeholder="••••••••"
+            placeholder=""
           />
           {errors.password && (
             <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>

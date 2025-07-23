@@ -1,13 +1,39 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Search, Filter, PlusCircle, Layers } from 'lucide-react'
 import ItemCardFound from '../(components)/itemCardFound'
+import { useRouter } from 'next/navigation'
+import { Item } from '..'
 // <-- assume this displays one item
 
 const ItemsBoard = () => {
   const [viewType, setViewType] = useState<'found' | 'missing'>('found')
+  const [items, setItems] = useState<Item[]>([]);
+  const router = useRouter();
+  useEffect(()=>{
+    const fetchUser = async ()=>{
+      const res = await fetch("/api/auth/me");
+      const user = await res.json();
+      if (res.status !== 200){
+          router.push("/login");
+          return;
+      }
 
+      const data = await fetch("/api/allitems");
+      const datares = await data.json();
+
+      if (data.status != 200){
+        setItems([]);
+      }else{
+        setItems(datares.data);
+      }
+
+
+    }
+
+    fetchUser();
+  },[]);
   return (
     <div className="px-4 md:px-10 py-8 pt-[10vh]">
       {/* Header and Controls */}
@@ -71,8 +97,9 @@ const ItemsBoard = () => {
       {/* Grid of Items */}
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {/* Replace with dynamic items later */}
-        {Array.from({ length: 8 }).map((_, i) => (
-          <ItemCardFound  key={i} />
+        {
+        items.map((item: Item) => (
+          <ItemCardFound  key={item.id} item={item} />
         ))}
       </div>
     </div>

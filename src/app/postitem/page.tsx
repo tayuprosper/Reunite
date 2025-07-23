@@ -1,20 +1,42 @@
 'use client'
 
-import React, { useState } from 'react'
+// import { redirect } from 'next/dist/server/api-utils'
+import { redirect, useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 type PostType = 'found' | 'lost'
 
 type PostItemFormData = {
-  type: PostType
-  itemName: string
+  status: PostType
+  title: string
   location: string
-  date: string
+  date_found: string
   description: string
-  image?: FileList
+  image: FileList
 }
 
 const PostItemForm = () => {
+const router = useRouter();
+ const [posting, setPosting] = useState(false)
+ 
+
+   useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch('/api/auth/me')
+
+        if (res.status !== 200) {
+          router.push('/login')
+        }
+      } catch (err) {
+        router.push('/login')
+      }
+    }
+
+    checkAuth()
+  }, [router])
+
   const [postType, setPostType] = useState<PostType>('found')
 
   const {
@@ -23,8 +45,61 @@ const PostItemForm = () => {
     formState: { errors },
   } = useForm<PostItemFormData>()
 
-  const onSubmit = (data: PostItemFormData) => {
-    console.log(data)
+  const onSubmit = async (data: PostItemFormData) => {
+    setPosting(true);
+    if(!data.image || data.image.length === 0){
+      alert("Please select an image of the item");
+      setPosting(false);
+      return
+    }
+
+    const imageData = data.image[0];
+
+    const imageForm = new FormData();
+    imageForm.append("file", imageData);
+
+    const uploadRes = await fetch("/api/upload",
+      {
+        method: "POST",
+        body: imageForm,
+      }
+    );
+
+    const imgres = await uploadRes.json();
+
+    if(uploadRes.status !== 200){
+      alert("Image upload failed" + imgres.error);
+      setPosting(false);
+      return;
+    }
+
+    const img_path = imgres.data;
+    console.log(img_path);
+
+     const postItemRes = await fetch("/api/post-item", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      status: data.status,
+      title: data.title,
+      location: data.location,
+      date_found: data.date_found,
+      description: data.description,
+      img_url: img_path,
+    }),
+  });
+
+
+const postResult = await postItemRes.json();
+
+  if (!postItemRes.ok) {
+    alert("Item creation failed: " + postResult.error);
+  } else {
+    console.log("Item saved:", postResult);
+    setPosting(false);
+    redirect("/account");
+  }
+  setPosting(false);
   }
 
   return (
@@ -58,18 +133,18 @@ const PostItemForm = () => {
         </div>
 
         {/* Hidden field for type */}
-        <input type="hidden" value={postType} {...register('type')} />
+        <input type="hidden" value={postType} {...register('status')} />
 
         {/* Item Name */}
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">Item Name</label>
           <input
             type="text"
-            {...register('itemName', { required: 'Item name is required' })}
+            {...register('title', { required: 'Item name is required' })}
             className="w-full p-2 rounded border bg-white"
             placeholder="e.g. Black Wallet"
           />
-          {errors.itemName && <p className="text-sm text-red-600 mt-1">{errors.itemName.message}</p>}
+          {errors.title && <p className="text-sm text-red-600 mt-1">{errors.title.message}</p>}
         </div>
 
         {/* Location */}
@@ -89,10 +164,10 @@ const PostItemForm = () => {
           <label className="block text-sm font-medium mb-1">Date</label>
           <input
             type="date"
-            {...register('date', { required: 'Date is required' })}
+            {...register('date_found', { required: 'Date is required' })}
             className="w-full p-2 rounded border bg-white"
           />
-          {errors.date && <p className="text-sm text-red-600 mt-1">{errors.date.message}</p>}
+          {errors.date_found && <p className="text-sm text-red-600 mt-1">{errors.date_found.message}</p>}
         </div>
 
         {/* Description */}
@@ -121,9 +196,9 @@ const PostItemForm = () => {
         {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-black text-white py-2 rounded font-semibold hover:bg-gray-800 transition"
+          className={`w-full ${posting ? "bg-gray-800 disabled" : "bg-black"} text-white py-2 rounded font-semibold hover:bg-gray-800 transition`}
         >
-          Post Item
+          { posting? "..." : "Post Item" }
         </button>
       </form>
     </div>

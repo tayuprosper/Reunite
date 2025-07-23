@@ -1,54 +1,19 @@
+import { createClient } from "@/lib/supbaseServerClient";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import bcrypt from "bcryptjs";
 
 export async function POST(req: Request) {
-  try {
+  const cookie = await cookies();
+const supabase = await createClient(cookie);
     const { fullName, email, phone, password } = await req.json();
 
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-    });
+   const { data, error } = await supabase.auth.signUp({
+    email, password
+   })
 
-    if (existingUser) {
-      return NextResponse.json({ error: "User already exists" }, { status: 400 });
-    }
+   if (error){
+      return  NextResponse.json({"error": error.message}, {status: 400})
+   }
+   return NextResponse.json({user: data.user}, {status: 200});
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await prisma.user.create({
-      data: {
-        fullName,
-        email,
-        phone,
-        password: hashedPassword,
-      },
-    });
-
-    return NextResponse.json(
-      { message: "User created successfully", userId: user.id },
-      { status: 200 }
-    );
-
-  } catch (error: any) {
-    alert("Error")
-    // ✅ Always log the full error
-    console.error("Signup error:", error);
-
-    // Prisma-specific error
-    if (error.code === "P2002") {
-      return NextResponse.json(
-        {
-          error: `Account with this ${error.meta?.target?.join(", ")} already exists`,
-        },
-        { status: 400 }
-      );
-    }
-
-    // ✅ Fallback for unknown errors
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
-  }
 }

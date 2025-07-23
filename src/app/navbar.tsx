@@ -3,6 +3,7 @@ import { HamIcon, Menu, Search, X } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { NavItem } from '.';
 
 const navItems: NavItem[] = [
   {
@@ -37,7 +38,7 @@ interface User {
 
 const Navabar = () => {
 
-  const [user, setUser] = useState<null | User>();
+  const [user, setUser] = useState<any | null>();
 
   useEffect(()=>{
   const checkAuth = async ()=>{

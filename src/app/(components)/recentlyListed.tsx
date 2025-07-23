@@ -3,11 +3,34 @@
 import React, { useState, useRef, useEffect } from "react";
 import { SquarePlus, X } from "lucide-react";
 import ItemCardFound from "./itemCardFound";
+import { Item } from "..";
 
 const RecentlyListed = () => {
   const [filterShowing, setIsFilterShowing] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("location");
   const [filterValue, setFilterValue] = useState("");
+  const [recentlyListed, setRecentlyListed] = useState<Item[]>([]);
+  const [loadingRecent, setLoadingRecent] = useState<boolean>(false);
+
+  useEffect(()=>{
+
+    const fetchRecent = async ()=>{
+      setLoadingRecent(true);
+      const recentRes = await fetch("/api/allitems");
+
+      const data = await recentRes.json();
+
+      if (recentRes.status !== 200 ){
+        setRecentlyListed([]);
+      }else{
+        setRecentlyListed(data.data);
+        // console.log(data);
+        setLoadingRecent(false);
+      }
+    }
+
+    fetchRecent();
+  }, [])
 
   const filterRef = useRef<HTMLDivElement>(null);
 
@@ -89,7 +112,7 @@ const RecentlyListed = () => {
                 size={15}
                 className="cursor-pointer"
                 onClick={() => setFilterValue("")}
-                title="Remove filter"
+                
               />
             </div>
           )}
@@ -99,12 +122,17 @@ const RecentlyListed = () => {
       <hr />
 
       <div className="p-4  grid justify-center gap-10 items-center sm:grid-cols-2 grid-cols-1 md:grid-cols-3">
-        <ItemCardFound />
-        <ItemCardFound />
-        <ItemCardFound />
-        <ItemCardFound />
-        <ItemCardFound />
-        <ItemCardFound />
+        {
+          loadingRecent ? 
+          <div className="font-black text-2xl text-black">Loading Items...</div>
+          :
+
+          recentlyListed.map((item: Item)=>{
+            return <ItemCardFound key={item.id} item={item}/>
+          })
+        }
+       
+        
       </div>
     </div>
   );

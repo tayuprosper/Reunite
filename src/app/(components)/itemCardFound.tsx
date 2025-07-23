@@ -1,10 +1,17 @@
 import Image from 'next/image'
 import React from 'react'
 import { Share2, Handshake } from 'lucide-react'
+import { Item } from '..'
+import { useRouter } from 'next/navigation'
 
-type Props = {}
 
-const ItemCardFound = (props: Props) => {
+
+const ItemCardFound = ({ item } : {item: Item}) => {
+  const router = useRouter();
+  const getDetails = ()=>{
+      router.push(`/details/${item.id}`);
+  }
+
   return (
     <div className="bg-white w-full rounded-2xl shadow-md hover:shadow-xl transition duration-300 max-w-sm overflow-hidden">
       {/* Image */}
@@ -12,26 +19,25 @@ const ItemCardFound = (props: Props) => {
         <Image
           alt="item found"
           fill
-          src="https://picsum.photos/300"
+          src={item.img_url}
           className="rounded-t-2xl object-cover"
         />
       </div>
 
       {/* Content */}
       <div className="p-4 space-y-2">
-        <h2 className="text-lg md:text-xl font-bold text-gray-800">Black Leather Wallet</h2>
+        <h2 onClick={()=>getDetails()} className="text-lg md:text-xl font-bold text-gray-800 hover:underline hover:cursor-pointer">{item.title}</h2>
 
         <p className="text-xs bg-gray-200 w-fit px-2 py-1 rounded-full font-medium text-gray-700">
-          Found at Buea Town Road
+          {item.location}
         </p>
         <p className="text-xs bg-gray-200 w-fit px-2 py-1 rounded-full font-medium text-gray-700">
-          On 12 March 2025
+          {item.date_found}
         </p>
 
+        <h1 className='font-bold text-lg text-black'>Description</h1>
         <p className="text-sm text-gray-600 line-clamp-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem deleniti
-          fugiat quis ex, qui ut dolores tenetur molestias optio quaerat numquam
-          laboriosam doloribus totam dicta!
+          {item.description}
         </p>
 
         {/* Actions */}

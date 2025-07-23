@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
       hostname: 'picsum.photos'
     },{
       hostname: 'randomuser.me'
+    },{
+      hostname: 'izsiuqlyylmpslnddnmm.supabase.co'
     }]
   }
 };
