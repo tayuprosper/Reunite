@@ -9,7 +9,8 @@ import TestimonialsSection from "./(components)/testimonials";
 import Footer from "./(components)/footer";
 const poppins = Poppins ({
   weight: ["100","200","300","400","500","600","700","800","900"],
-  fallback: ["latin"]
+  fallback: ["latin"],
+  subsets: ['latin']
 })
 export default function Home() {
   return (
