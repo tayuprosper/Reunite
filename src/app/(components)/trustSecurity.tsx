@@ -24,7 +24,7 @@ export default function TrustAndSafetySection() {
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">Trust & Safety</h2>
         <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
-          Your security and peace of mind matter. Here's how we ensure a safe experience for everyone.
+          Your security and peace of mind matter. {"Here's"} how we ensure a safe experience for everyone.
         </p>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
